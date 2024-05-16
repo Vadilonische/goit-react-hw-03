@@ -30,24 +30,30 @@ import * as Yup from "yup";
 
 export default function ContactForm({ onAdd }) {
   const initialValues = {
-    text: "",
+    name: "",
     number: "",
   };
 
   const handleSubmit = (values, actions) => {
-    onAdd(values);
-    console.log(values);
+    const newContact = {
+      id: Date.now(),
+      name: values.name,
+      number: values.number,
+    };
+    onAdd(newContact);
     actions.resetForm();
   };
 
   const ContactSchema = Yup.object().shape({
-    text: Yup.string()
+    name: Yup.string()
       .min(3, "Мінімум 3 символи!")
       .max(50, "Максимум 50 символів!")
       .required("Це обовʼязкове поле!"),
     number: Yup.string()
-      .min(3, "Мінімум 3 символи!")
-      .max(50, "Максимум 50 символів!")
+      .matches(
+        /^(?:\d{10}|\d{3}-\d{3}-\d{2}-\d{2})$/,
+        "Номер телефону у форматі xxx-xxx-xx-xx"
+      )
       .required("Це обовʼязкове поле!"),
   });
 
@@ -63,12 +69,12 @@ export default function ContactForm({ onAdd }) {
       <Form>
         <div>
           <label htmlFor={nameFieldId}>Name</label>
-          <Field type="text" name="text" id="nameFieldId" />
-          <ErrorMessage name="text" component="span" />
+          <Field type="text" name="name" id="nameFieldId" />
+          <ErrorMessage name="name" component="span" />
         </div>
         <div>
           <label htmlFor={numberFieldId}>Number</label>
-          <Field type="number" name="number" id="numberFieldId" />
+          <Field type="text" name="number" id="numberFieldId" />
           <ErrorMessage name="number" component="span" />
         </div>
 

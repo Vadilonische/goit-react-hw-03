@@ -1,3 +1,4 @@
+import css from "./SearchBox.module.css";
 import { useState } from "react";
 
 export default function SearchBox({ value, onSearch }) {
@@ -6,10 +7,14 @@ export default function SearchBox({ value, onSearch }) {
   };
 
   return (
-    <div>
-      <p>Find contacts by name</p>
-      <input type="text" value={value} onChange={handleChange} />
-      {/* <p>{value}</p> */}
+    <div className={css.searchBox}>
+      <p className={css.searchLable}>Find contacts by name</p>
+      <input
+        className={css.searchInput}
+        type="text"
+        value={value}
+        onChange={handleChange}
+      />
     </div>
   );
 }
